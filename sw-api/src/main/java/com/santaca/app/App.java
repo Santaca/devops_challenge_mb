@@ -13,22 +13,21 @@ public class App {
 
     private JSONArray call_api() {
         String req = HttpRequest.get(BASE_URL).body();
+        System.out.println(req);
         JSONObject json = new JSONObject(req);
-        JSONArray json_arr = json.getJSONArray("results");
-        return json_arr;
+        return null;
     }
 
     private Object order_people(JSONObject people) {
 
         Iterator<String> keys = people.keys();
         Object elem = new Object();
-        
+
         if (keys.hasNext()) {
             String key = keys.next();
             System.out.println("Clave: " + key);
             elem = people.get(key);
         }
-
 
         return elem;
     }
