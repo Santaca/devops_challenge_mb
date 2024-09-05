@@ -11,9 +11,15 @@ public class MakeRequest {
     }
 
     public String call_api() {
-        System.out.println("Dentro de la request");
-        System.out.println(BASE_URL + this.path);
-        return HttpRequest.get(BASE_URL + this.path).body();
+        System.out.println("Entra a la llamada");
+        String result = "";
+        try {
+            result = HttpRequest.get(BASE_URL + this.path).body();
+        } catch (HttpRequest.HttpRequestException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     // private JSONObject convert_to_json(String json) {

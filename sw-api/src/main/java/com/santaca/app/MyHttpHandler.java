@@ -3,6 +3,9 @@ package com.santaca.app;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -10,27 +13,42 @@ public class MyHttpHandler implements  HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String param = "/";
-        System.out.println("Method:" + exchange.getRequestMethod());
         if (exchange.getRequestMethod().equals("GET")) {
             System.out.println("Dentro del IF");
-            param = exchange.getRequestURI().toString().split("\\?")[1].split("=")[1];
+            String param = exchange.getRequestURI().toString();
             MakeRequest req = new MakeRequest(param);
             String result = req.call_api();
-            System.out.println("Entramos en el manejador");
-            System.out.println(result);
+
+            JSONObject jsonfy = new JSONObject(result);
+            System.out.println(jsonfy.length());
+
+            String results_aux = jsonfy.get("results").toString();
+            JSONArray arr = new JSONArray(results_aux);
+            
+            JSONArray sorted_arr = order_json_array(arr);
 
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, result.getBytes().length);
 
             OutputStream os = exchange.getResponseBody();
-            os.write(result.getBytes());
+            os.write(results_aux.getBytes());
             os.close();
 
-            
         } else {
+            String error = "Method Not Allowed";
+            exchange.getResponseHeaders().set("Content-Type", "application/text");
+            exchange.sendResponseHeaders(405, error.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(error.getBytes());
+            os.close();
             throw new UnsupportedOperationException("Unimplemented method 'handle'");
         }
+    }
+    
+    private JSONArray order_json_array(JSONArray arr) {
+        System.out.println("Ordenamos el array");
+        System.out.println(arr.opt(0));
+        return null;
     }
     
 }
