@@ -15,8 +15,7 @@ spec:
         app: sw-api
     spec:
       containers:
-      - name: sw-api
-        image: sw-api:v1.1
-        ports:
-        - containerPort: 9090
-
+        - name: sw-api
+          image: sw-api:v1.1
+          ports:
+            - containerPort: 9090
