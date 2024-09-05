@@ -1,41 +1,21 @@
 package com.santaca.app;
 
-import java.util.Iterator;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.github.kevinsawicki.http.HttpRequest;
+import com.sun.net.httpserver.HttpServer;
 
 public class App {
-
-    String BASE_URL = "https://swapi.dev/api/people/";
-
-    private JSONArray call_api() {
-        String req = HttpRequest.get(BASE_URL).body();
-        System.out.println(req);
-        JSONObject json = new JSONObject(req);
-        return null;
-    }
-
-    private Object order_people(JSONObject people) {
-
-        Iterator<String> keys = people.keys();
-        Object elem = new Object();
-
-        if (keys.hasNext()) {
-            String key = keys.next();
-            System.out.println("Clave: " + key);
-            elem = people.get(key);
-        }
-
-        return elem;
-    }
-
     public static void main(String[] args) {
-        App app = new App();
-        System.out.print(app.call_api());
-        // JSONObject resp = app.call_api();
-        // System.out.print("Primer elemento: " + app.order_people(resp));
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 9090), 0);
+            server.createContext("/", new MyHttpHandler());
+            server.setExecutor(null);
+            server.start();
+            System.out.println("Servidor corriendo en purto 9090");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
