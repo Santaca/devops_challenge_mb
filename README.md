@@ -28,16 +28,16 @@ Contamos con tres clases:
 
 ### App
 Es la clase principal, en ella se inicializan los objetos necesarios para levantar el servicio.
-Declaramos un objeto de tipo HTTPServer pasandole como parámetros tanto el host como el puerto donde correrá el servidor web.
+Declaramos un objeto de tipo `HTTPServer` pasandole como parámetros tanto el host como el puerto donde correrá el servidor web.
 
 ### MakeRequest
-Encagado de realizar las peticiones a la API externa. Se hace uso de la liberia *com.github.kevinsawicki.http.HttpRequest* para realizar las peticiones GET al endpoint /people.
+Encagado de realizar las peticiones a la API externa. Se hace uso de la liberia `com.github.kevinsawicki.http.HttpRequest` para realizar las peticiones GET al endpoint `/people`.
 
 ### MyHttpHandler
 
 ### Compilación del servicio
 Una vez visto las clases que conforman el servicio, tenemos que construir un binario para poder usarlo.
-De esta manera, mediante Maven compilamos el servicio y generamos un binario en el path *target/sw-api-1.0-SNAPSHOT.jar* que utilizaremos más tarde.</br>
+De esta manera, mediante Maven compilamos el servicio y generamos un binario en el path `target/sw-api-1.0-SNAPSHOT.jar` que utilizaremos más tarde.</br>
 ```bash
 mvn clean package
 ```
@@ -110,3 +110,8 @@ eval $(minikube docker-env -p devops)
 
 ### Manifiestos de Kubernetes
 #### Deployment
+El microservicio se crea con dos replicas iniciales. Como hemos indicado anteriormente, se utiliza la imagen `sw-api:v2.2` que debe de encontrarse en el repositorio local de Docker.
+
+#### Service
+
+#### Ingress
