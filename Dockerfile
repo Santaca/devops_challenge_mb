@@ -1,11 +1,8 @@
-FROM python:alpine3.20
+FROM openjdk:22
 
 WORKDIR /
-COPY main.py main.py
-COPY requirements.txt requirements.txt
+COPY ./sw-api/target/*.jar api.jar
 
-RUN pip install -r requirements.txt
+EXPOSE 9090
 
-EXPOSE 9090/tcp
-
-ENTRYPOINT python main.py
+ENTRYPOINT ["java", "-jar", "api.jar"]

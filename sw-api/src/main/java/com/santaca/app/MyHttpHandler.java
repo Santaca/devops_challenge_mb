@@ -31,7 +31,7 @@ public class MyHttpHandler implements  HttpHandler {
             exchange.sendResponseHeaders(200, result.getBytes().length);
 
             OutputStream os = exchange.getResponseBody();
-            os.write(results_aux.getBytes());
+            os.write(result.getBytes());
             os.close();
 
         } else {
