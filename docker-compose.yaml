@@ -1,0 +1,9 @@
+version: '3.1'
+services:
+  sw-api:
+   container_name: sw-api
+   build: .
+   restart: always
+   ports:
+     - 9090:9090
+    

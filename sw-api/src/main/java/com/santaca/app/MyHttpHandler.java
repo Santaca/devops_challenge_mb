@@ -28,10 +28,10 @@ public class MyHttpHandler implements  HttpHandler {
             JSONArray sorted_arr = order_json_array(arr);
 
             exchange.getResponseHeaders().set("Content-Type", "application/json");
-            exchange.sendResponseHeaders(200, result.getBytes().length);
+            exchange.sendResponseHeaders(200, results_aux.getBytes().length);
 
             OutputStream os = exchange.getResponseBody();
-            os.write(result.getBytes());
+            os.write(results_aux.getBytes());
             os.close();
 
         } else {
