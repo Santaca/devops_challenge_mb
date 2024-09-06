@@ -16,7 +16,8 @@ public class MyHttpHandler implements  HttpHandler {
         if (exchange.getRequestMethod().equals("GET")) {
             System.out.println("Dentro del IF");
             String param = exchange.getRequestURI().toString();
-            MakeRequest req = new MakeRequest(param);
+            System.out.println("Llamamos al path: " + param);
+            MakeRequest req = new MakeRequest("/");
             String result = req.call_api();
 
             JSONObject jsonfy = new JSONObject(result);
