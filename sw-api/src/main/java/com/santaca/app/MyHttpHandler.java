@@ -3,7 +3,6 @@ package com.santaca.app;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -24,9 +23,9 @@ public class MyHttpHandler implements  HttpHandler {
             System.out.println(jsonfy.length());
 
             String results_aux = jsonfy.get("results").toString();
-            JSONArray arr = new JSONArray(results_aux);
+            // JSONArray arr = new JSONArray(results_aux);
             
-            JSONArray sorted_arr = order_json_array(arr);
+            // JSONArray sorted_arr = order_json_array(arr);
 
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, results_aux.getBytes().length);
@@ -46,10 +45,10 @@ public class MyHttpHandler implements  HttpHandler {
         }
     }
     
-    private JSONArray order_json_array(JSONArray arr) {
-        System.out.println("Ordenamos el array");
-        System.out.println(arr.opt(0));
-        return null;
-    }
+    // private JSONArray order_json_array(JSONArray arr) {
+    //     System.out.println("Ordenamos el array");
+    //     System.out.println(arr.opt(0));
+    //     return null;
+    // }
     
 }

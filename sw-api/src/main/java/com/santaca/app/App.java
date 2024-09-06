@@ -15,7 +15,7 @@ public class App {
             System.out.println("Servidor corriendo en purto 9090");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }

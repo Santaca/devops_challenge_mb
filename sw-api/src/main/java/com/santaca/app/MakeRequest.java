@@ -16,7 +16,7 @@ public class MakeRequest {
         try {
             result = HttpRequest.get(BASE_URL + this.path).body();
         } catch (HttpRequest.HttpRequestException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return result;
