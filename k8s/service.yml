@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sw-api-svc
+spec:
+  selector:
+    app: sw-api
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 9090
