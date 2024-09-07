@@ -1,4 +1,4 @@
-# SW API: prueba ténica
+# SW API: Prueba técnica
 
 A continuación, se expone de manera detalla la estucutura, pasos y tecnologías utilizadas para realizar esta prueba técnica. 
 Se ha utlizado Java 22.0.2, Apache Maven 3.9.9, Docker version 27.2.0, Minikube v1.33.1, Kubernetes 1.30.0, Locust 2.31.5 y Python 3.11.2.
