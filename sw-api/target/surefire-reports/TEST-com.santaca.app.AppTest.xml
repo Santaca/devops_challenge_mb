@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.santaca.app.AppTest" time="0.049" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.santaca.app.AppTest" time="0.028" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="22"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/opt/jdk/jdk-22.0.2/lib"/>
-    <property name="sun.java.command" value="/home/asantama/devops_challenge/sw-api/target/surefire/surefirebooter-20240906143826045_3.jar /home/asantama/devops_challenge/sw-api/target/surefire 2024-09-06T14-38-25_791-jvmRun1 surefire-20240906143826045_1tmp surefire_0-20240906143826045_2tmp"/>
+    <property name="sun.java.command" value="/home/asantama/devops_challenge/sw-api/target/surefire/surefirebooter-20240906163458953_3.jar /home/asantama/devops_challenge/sw-api/target/surefire 2024-09-06T16-34-58_811-jvmRun1 surefire-20240906163458953_1tmp surefire_0-20240906163458953_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/asantama/devops_challenge/sw-api/target/test-classes:/home/asantama/devops_challenge/sw-api/target/classes:/home/asantama/.m2/repository/com/github/kevinsawicki/http-request/6.0/http-request-6.0.jar:/home/asantama/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/asantama/.m2/repository/org/json/json/20240303/json-20240303.jar:/home/asantama/.m2/repository/com/sun/net/httpserver/http/20070405/http-20070405.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/asantama/devops_challenge/sw-api/target/surefire/surefirebooter-20240906143826045_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/asantama/devops_challenge/sw-api/target/surefire/surefirebooter-20240906163458953_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="22.0.2+9-70"/>
     <property name="user.name" value="asantama"/>
@@ -53,5 +53,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="66.0"/>
   </properties>
-  <testcase name="testApp" classname="com.santaca.app.AppTest" time="0.006"/>
+  <testcase name="testApp" classname="com.santaca.app.AppTest" time="0.003"/>
 </testsuite>
