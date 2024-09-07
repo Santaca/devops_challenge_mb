@@ -84,7 +84,7 @@ docker run -d --name sw-api -p 9090:9090 sw-api:v2.2
 
 ### Docker Compose
 Otra manera de desplegar y administrar contenedores es mediante docker compose. Para ello se declara en el fichero docker-compose.yml los servicios que necesitamos para iniciar nuestra api.
-Unicamente necesitaremos un servicio, para evitar tener que previamente construir la imagen y despues levantar los servicios, indicamos que la construcción sea parte del manifiesto (`build: .`). </br>
+Unicamente necesitaremos un servicio que constará de un contenedor corriendo la imagen creada `image: sw-api:v2.2`. </br>
 Queremos que el contenedor tenga como politica de reinicios `restart: always` para que sin importar lo que ocurra siempre se reinice el contendor.</br>
 Por último, exponemos el puerto 9090 al mismo puerto en la máquina anfitriona:
 ```bash
@@ -98,21 +98,21 @@ docker compose up -d
 
 ## Minikube
 Minikube nos facilita levantar un cluster de Kubernetes usando Docker como driver, para ello creamos un cluster simple con un solo nodos en la versión de Kubernetes 1.30.0:</br>
-```
+```bash
 minikube start -n=1 --cpus=2 --memory=2048mb -p=devops
 ```
 
-Comprobamos que nuestro cluster esté correctamente creado:
+Comprobamos que nuestro cluster esté correctamente desplegado:
 ```bash
 NAME     STATUS   ROLES           AGE   VERSION
 devops   Ready    control-plane   23h   v1.30.0
 ```
-Para que funcione correctamente los recursos que se definene en los YAMLS necesitamos habilitar algunos plugins de Minikube:</br>
+Para que funcionen correctamente los recursos declarados en los YAMLS necesitamos habilitar algunos plugins de Minikube:
 ```bash
 minikube addons enable ingress
 minikube addons enable metrics-server
 ```
-Por ultimo, para poder desplegar la imagen a partir del repositorio de docker local:
+Por ultimo, para poder desplegar la imagen a partir del repositorio local de docker :
 ```bash
 eval $(minikube docker-env -p devops)
 ```
@@ -130,14 +130,14 @@ sw-api-deployment   1/1     1            1           20h
 ```
 
 #### Service
-
+Vinculamos un servicio de Kubernetes al deployment creado para enrutas las peticiones a los pods.
 ``` bash
-NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-sw-api-svc   LoadBalancer   10.96.32.182   <pending>     80:32333/TCP   20h
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+sw-api-svc   ClusterIP   10.96.32.182   <none>        80/TCP    20h
 ```
 
 #### Ingress
-Para facilitar el acceso a nuestro microservicio se ha definido un recurso Ingress para exponer el servidio `sw-api-svc` al exterior del cluster.
+Para facilitar el acceso a nuestro microservicio creamos un Ingress para exponer el servicio `sw-api-svc` al exterior del cluster.
 
 ``` bash
 NAME             CLASS   HOSTS   ADDRESS        PORTS   AGE
@@ -146,7 +146,7 @@ sw-api-ingress   nginx   *       192.168.58.2   80      20h
 
 #### HorizontalPodAutoscaler - HPA
 
-Aplicando los conceptos de alta disponibilidad y escalabilidad, definimos un autoescalado del microservicio horizontalmente en el que, una vez superado el humbral del 40% de uso de CPU en el microservicio, se demandará la creación de más pods hasta un máximo de 4.
+Para dotar al servicio de alta disponibilidad definimos un autoescalado horizontalmente en el que, una vez superado el humbral del 40% de uso de CPU en el microservicio, se demandará la creación de más pods hasta un máximo de 4.
 
 ``` bash
 NAME                REFERENCE                      TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
@@ -163,16 +163,25 @@ curl $(minikube ip -p devops)/sw
 
 
 ## Locust: Load Tests
-Es una herramienta desarrolada en Python que desplegar un entorno de pruebas de carga. Para instalar Locust:</br>
+Locust es una herramienta desarrollada en Python que permite lanzar pruebas de carga sobre servicios expuestos de una manera muy sencilla e intuitiva. Para instalarlo:</br>
 ``` bash
 pip install locust
 ```
-El fichero `locust_tests/locust.py` que pasamos como argumento es muy sencillo. El endpoint a donde atacaremos es el definido tanto por el Ingress como en el desarrollo del servicio ``/sw``, asumiendo una carga de 100 usuarios concurrentes durante 10 minutos con una rampa de un usuario nuevo cada segundo hasta llegar al máximo definido.
+El fichero `locust_tests/locust.py` que pasamos como argumento es muy simple. El endpoint a donde atacaremos será ``/sw`` y el host el proporcionado por el Ingress, asumiendo una carga de 100 usuarios concurrentes durante 10 minutos con una rampa de un usuario nuevo cada segundo hasta llegar al máximo definido.
 
- Para ejecutar la prueba mediante una linea de comando:
+ Para ejecutar la prueba desde la consola:
 
 ```bash
-locust --headless -u 100 --spawn-rate 1 -t 10m --processes 4 --host http://192.168.58.2 --html report.html -f locust_tests/locust.py
+locust --headless -u 100 --spawn-rate 1 -t 10m --processes 4 --host http://$(minikube ip -p devops)2 --html report.html -f locust_tests/locust.py
+
+# --headless: no iniciamos la interfaz gráfica de Locust
+# -u: número de usuarios totales
+# --spawn-rate: cuandos usuarios nuevos cada segundo añadimos a la prueba
+# -t: tiempo total de la prueba
+# --processes: número de procesos que iniciamos sobre los que se dividirán los usuarios
+# --host: host contra el que lanzar la carga
+# --html: nombre y ubicación donde generar el reporte
+# -f: ubicación del fichero con las pruebas
 ```
 
 Estado del cluster antes de empezar la prueba:
@@ -205,17 +214,17 @@ sw-api-deployment-654587d87-gmjcs   1/1     Running   0          2m36s
 sw-api-deployment-654587d87-wmw56   1/1     Running   0          2m36s
 ```
 
-Locust nos permite exportar un reporte con lo ocurrido durante la prueba. En el podemos ver estadisticas y métricas asi como la evolución del tiempo de respuesta en las llamadas, la rampa de usuarios concurrentes, la tasa de errors que hemos tenido en las peticiones y los errores obtenidos en las respuestas del servidor.
+Locust nos permite generar un reporte con lo ocurrido durante la prueba. En el podemos ver estadisticas y métricas asi como la evolución del tiempo de respuesta en las llamadas, la rampa de usuarios concurrentes, la tasa de errores que hemos tenido en las peticiones y los errores obtenidos en las respuestas del servidor.
 
-El número total de peticiones ha sido 2759 repartidos entre los 100 usuarios durante los 10 minutos que ha dudado la prueba. Estás tablas indican unas estadisticas a grandes rasgos sobre como se ha comportado el microservicios, unicamente hemos realizado llamadas al endpoit `/sw` teniendo 9 errores, entendiendo como error toda aquella petición que no hayan obetenido una respuesta 200. La media de latencia se encuentra en los 15 segundos.
+El número total de peticiones ha sido 2759 repartidos entre los 100 usuarios durante los 10 minutos que ha dudado la prueba. Estás tablas indican unas estadisticas a grandes rasgos sobre como se ha comportado el microservicios, unicamente hemos realizado llamadas al endpoint `/sw` teniendo 5 peticiones erroneas, entendiendo como error toda aquella petición que no hayan obetenido una respuesta 200. La media de latencia se encuentra en los 10 segundos.
 
 ![Request and response times](./img/request%20and%20reponse%20times.png)
 
-En la siguiente tabla se pueden apreciar los tipos de errores obtenidos. Unicamente encontramos errores 504, esto es debido a que cuando el microservicio no ha escalado, cuando llega a un consumo de recursos superior a lo que puede gestionar se ve sobrepasado, motivo por el cual escalará más adelante.
+En la siguiente tabla se pueden apreciar los tipos de errores obtenidos. Unicamente encontramos errores 504, esto se debe a que cuando el microservicio no ha escalado y llega a un consumo de recursos superior a lo que puede gestionar se ve sobrepasado, motivo por el cual escalará más adelante.
 
 ![Failures and ](./img/failures.png)
 
-Por último, contamos con tres tablas donde podemos observar la evolución en el tiempo de el total de peticiones por segundo, el tiempo de respuesta de las peticiones y la rampa de usuarios concurrentes realizando las llamadas.<br>
+Por último, contamos con tres tablas donde podemos observar la evolución en el tiempo del total de peticiones por segundo, el tiempo de respuesta de las peticiones y la rampa de usuarios concurrentes realizando las llamadas.<br>
 
 La peticiones son constantes durante toda la prueba. La mayoria de ellas son exitosas como se ha mencionado anteriormente.
 
@@ -226,6 +235,6 @@ Al comienzo de la ejecución los tiempos de respuesta son bajos, no superan los 
 
 ![Reponse time](./img/response_times_(ms).png)
 
-Podemos ver de menera gráfica como ha evolucionado la rampa de usuarios durante la ejecución, partiendo de un usuario y añadiendo uno nuevo cada segundo. Finalmente, llegaremos a tener los 100 usuarios concurrentes hasta finalizar la prueba.
+Presenta de menera gráfica como ha evolucionado la rampa de usuarios durante la ejecución, partiendo de un usuario y añadiendo uno nuevo cada segundo. Finalmente, llegaremos a tener los 100 usuarios concurrentes hasta finalizar la prueba.
 
 ![Number of users](./img/number_of_users.png)

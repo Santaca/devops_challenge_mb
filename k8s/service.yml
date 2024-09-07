@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: sw-api
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: 9090
