@@ -16,6 +16,16 @@ spec:
     spec:
       containers:
         - name: sw-api
-          image: sw-api:v1.1
+          image: sw-api:v2.2
           ports:
             - containerPort: 9090
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms25m -Xmx75m"
+          resources:
+            limits:
+              cpu: 50m
+              memory: 100Mi
+            requests:
+              cpu: 25m
+              memory: 50Mi

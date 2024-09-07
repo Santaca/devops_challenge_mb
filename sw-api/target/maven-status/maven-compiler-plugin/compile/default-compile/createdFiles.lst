@@ -1,3 +1,4 @@
 com/santaca/app/App.class
-com/santaca/app/MyHttpHandler.class
 com/santaca/app/MakeRequest.class
+com/santaca/app/MyHttpHandler$1.class
+com/santaca/app/MyHttpHandler.class
