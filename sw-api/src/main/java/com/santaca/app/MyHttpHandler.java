@@ -18,7 +18,6 @@ public class MyHttpHandler implements  HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (exchange.getRequestMethod().equals("GET")) {
-            String param = exchange.getRequestURI().toString();
             MakeRequest req = new MakeRequest("/");
             String result = req.call_api();
 
