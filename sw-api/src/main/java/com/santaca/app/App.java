@@ -12,7 +12,7 @@ public class App {
             server.createContext("/sw", new MyHttpHandler());
             server.setExecutor(null);
             server.start();
-            System.out.println("Servidor corriendo en purto 9090");
+            System.out.println("Servidor corriendo en puerto 9090");
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
