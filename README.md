@@ -12,6 +12,7 @@ Se ha utilizado Java 22.0.2, Apache Maven 3.9.9, Docker 27.2.0, Minikube 1.33.1,
     - [Compilación del servicio](#compilación-del-servicio)
 - [Dockerización del servicio: Docker y Docker Compose](#dockerización-del-servicio-docker-y-docker-compose)
     - [Dockerfile](#dockerfile)
+    - [Docker Compose](#docker-compose)
 - [Minikube](#minikube)
     - [Manifiestos de Kubernetes](#manifiestos-de-kubernetes)
 - [Locust: Load Tests](#locust-load-tests)
