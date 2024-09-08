@@ -18,14 +18,11 @@ public class MyHttpHandler implements  HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (exchange.getRequestMethod().equals("GET")) {
-            System.out.println("Dentro del IF");
             String param = exchange.getRequestURI().toString();
-            System.out.println("Llamamos al path: " + param);
             MakeRequest req = new MakeRequest("/");
             String result = req.call_api();
 
             JSONObject jsonfy = new JSONObject(result);
-            System.out.println(jsonfy.length());
 
             String results_aux = jsonfy.get("results").toString();
             JSONArray arr = new JSONArray(results_aux);

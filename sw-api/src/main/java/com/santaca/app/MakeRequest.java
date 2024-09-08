@@ -11,7 +11,7 @@ public class MakeRequest {
     }
 
     public String call_api() {
-        System.out.println("Entra a la llamada: " + path);
+        System.out.println("LLamamos al api externo: " + path);
         String result = "";
         try {
             result = HttpRequest.get(BASE_URL + this.path).body();
