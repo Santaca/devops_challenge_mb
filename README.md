@@ -3,7 +3,7 @@
 A continuación, se expone de manera detallada la estructura, pasos y tecnologías utilizadas para realizar esta prueba técnica. 
 Se ha utilizado Java 22.0.2, Apache Maven 3.9.9, Docker 27.2.0, Minikube 1.33.1, Kubernetes 1.30.0, Locust 2.31.5 y Python 3.11.2.
 
-## Tabla de Contenido
+## Tabla de contenido
 - [Estructura de carpetas](#estructura-de-carpetas)
 - [Desarrollo del servicio](#desarrollo-del-servicio)
     - [App](#app)
